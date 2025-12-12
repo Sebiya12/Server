@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .  # Путь к Dockerfile
+    container_name: web_app
+    ports:
+      - "5002:5000"  # Проброс порта 5000 на 5000
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: labdb
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_DB: labdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:  # Определение объема
